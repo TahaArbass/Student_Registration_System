@@ -1,3 +1,19 @@
+/***********************************************************************
+ * This project is to implement Registration System using data structures
+ * DoublyLinkedList,linkedListWithDummyNode and implying composition.
+ * Course name : CSIS216 Fall 2023-2024
+ * Authors : Fares Najjar - Taha Arbass - Edgard Yammine - Salim el Hajj
+ * Date   : 11-Nov-2023
+ * Instructor: Dr.Hamid El Debs
+
+ * main: main method to test the program.
+* inputOfferedCourses: fill courses list using txt file.
+inputUnRegisteredStudents:fill students list using txt file.
+***********************************************************************/
+
+
+
+
 #include "Course.h"
 #include "Student.h"
 #include "DoublyLinkedList.h"
@@ -64,19 +80,20 @@ int main()
 		cout << "Enter your choice: ";
 		cin >> choice;
 
-		// ensuring that the user does not input a different data type value
-		 if (cin.fail()) {
+		// // ensuring that the user does not input a different data type value
+		 if (cin.fail())
+		 {
 		 	cin.clear(); // clear the fail state
 
-			// discard input
-		 	cin.ignore(numeric_limits<streamsize>::max(), '\n'); 
+		 	// discard input
+		 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
 		 	choice = -1; // it will go to the default state like this
 		 }
 
 		switch (choice)
 		{
 
-		//1. Display the list of non - registered students
+			// 1. Display the list of non - registered students
 		case 1:
 			// show unregistered students
 			// basically if a student registered a course he won't appear
@@ -96,8 +113,8 @@ int main()
 			}
 			cout << "\n";
 			break;
-		
-		//2. Display the list of offered courses
+
+			// 2. Display the list of offered courses
 		case 2:
 			sizeOfCL = offeredCourses.getSize();
 
@@ -107,19 +124,20 @@ int main()
 				<< setw(15) << "# Credits" << setw(15) << "Enrolled"
 				<< setw(15) << "Capacity" << endl;
 
-			//print courses characteristics
+			// print courses characteristics
 			for (int i = 0; i < sizeOfCL; i++)
 			{
 				Course* coursePtr = offeredCourses.getDataAtPos(i);
 				cout << left << setw(10) << coursePtr->getCode() << setw(40)
-					<< coursePtr->getTitle() << setw(15) << coursePtr->getCredits()
+					<< coursePtr->getTitle() << setw(15)
+					<< coursePtr->getCredits()
 					<< setw(15) << coursePtr->getNumOfStudents()
 					<< setw(15) << coursePtr->getCapacity() << endl;
 			}
 			cout << "\n\n";
 			break;
 
-		// 3. Display the list of registered students
+			// 3. Display the list of registered students
 		case 3:
 
 			sizeOfStudentList = unregisteredStudents.getSize();
@@ -130,7 +148,7 @@ int main()
 				if (studentPtr->getSize() != 0)
 				{
 					studentPtr->displayRegisterdCourses(cout);
-					found = true; //student found
+					found = true; // student found
 				}
 			}
 
@@ -140,20 +158,19 @@ int main()
 			cout << "\n\n";
 			break;
 
-		//	4. Display the list of offered courses 
-		//		with the registered students
+			//	4. Display the list of offered courses
+			//		with the registered students
 		case 4:
 			cout << endl;
 			sizeOfCL = offeredCourses.getSize();
 
 			for (int i = 0; i < sizeOfCL; i++)
 			{
-				offeredCourses.getDataAtPos(i)->
-					displayCourseWithRegisteredStudents(cout);
+				offeredCourses.getDataAtPos(i)->displayCourseWithRegisteredStudents(cout);
 			}
 			break;
-		
-		//5. Display the registered courses for a student
+
+			// 5. Display the registered courses for a student
 		case 5:
 			sizeOfStudentList = unregisteredStudents.getSize();
 			cout << "Enter the student ID: ";
@@ -174,17 +191,17 @@ int main()
 				cout << "Student Not Found.\n\n";
 			break;
 
-
-		//6. Display the list of students registered in a course
+			// 6. Display the list of students registered in a course
 		case 6:
 			sizeOfCL = offeredCourses.getSize();
 			cout << "Enter course code: ";
 			cin >> code;
 
-			// for (char &ch : id)
-			// {
-			//     ch = toupper(ch);
-			// }
+			// giving the flexiblity for the user to enter small letters
+			for (char& ch : code)
+			{
+				ch = toupper(ch);
+			}
 
 			// search for the course
 			for (int i = 0; i < sizeOfCL; i++)
@@ -192,14 +209,22 @@ int main()
 				Course* coursePtr = offeredCourses.getDataAtPos(i);
 				if (coursePtr->getCode() == code)
 				{
+					found = true;
+					cout << "\nCourse: " << coursePtr->getCode() << "-" << coursePtr->getTitle();
+					cout << "\n"
+						<< endl;
+
 					coursePtr->displayRegisteredStudents(cout);
+
 					break;
 				}
-				// missing else that ensure to ouput no found
 			}
+			if (!found)
+				cout << "\nCourse not found.\n";
+
 			break;
 
-		// 7. Display the information related to a specific student
+			// 7. Display the information related to a specific student
 		case 7:
 			sizeOfStudentList = unregisteredStudents.getSize();
 			cout << "Enter the student ID: ";
@@ -222,8 +247,7 @@ int main()
 				cout << "Student Not Found.\n\n";
 			break;
 
-
-		// 8. Register a student
+			// 8. Register a student
 		case 8:
 
 			sizeOfStudentList = unregisteredStudents.getSize();
@@ -242,6 +266,13 @@ int main()
 					cout << "Enter course code: ";
 					cin >> code;
 
+					// giving the flexiblity for the user to enter small letters
+
+					for (char& ch : code)
+					{
+						ch = toupper(ch);
+					}
+
 					bool courseFound = false;
 
 					// search for a course by its code
@@ -255,8 +286,7 @@ int main()
 							{
 
 								// check if student is registered
-								if (!coursePtr->isStudentEnrolled
-									(studentPtr->getID()))
+								if (!coursePtr->isStudentEnrolled(studentPtr->getID()))
 								{
 									coursePtr->registerStudent(*studentPtr);
 									studentPtr->registerCourse(*coursePtr);
@@ -265,7 +295,8 @@ int main()
 								}
 								else
 								{
-									cout << "\nStudent is already registered.\n";
+									cout
+										<< "\nStudent is already registered.\n";
 								}
 							}
 							else
@@ -291,9 +322,8 @@ int main()
 				break;
 			}
 			break;
-		
 
-		// 9. Choose a student to add / drop a course for him / her
+			// 9. Choose a student to add / drop a course for him / her
 		case 9:
 			sizeOfStudentList = unregisteredStudents.getSize();
 			sizeOfCL = offeredCourses.getSize();
@@ -301,7 +331,7 @@ int main()
 			cout << "Enter the students-ID: ";
 			cin >> id;
 
-			// finding the student by his ID
+			// finding the student by his/her ID
 			for (int i = 0; i < sizeOfStudentList; i++)
 			{
 				Student* studentPtr = unregisteredStudents.getDataAtPos(i);
@@ -332,12 +362,14 @@ int main()
 							cout << "\n\n";
 
 							// assuming course not found
-							bool foundCourse = false; 
+							bool foundCourse = false;
 
 							// searching for the course by its code
 							for (int j = 0; j < sizeOfCL; j++)
 							{
-								Course* coursePtr = offeredCourses.getDataAtPos(j);
+								Course* coursePtr =
+									offeredCourses.getDataAtPos(j);
+
 								if (coursePtr->getCode() == code)
 								{
 									foundCourse = true;
@@ -350,11 +382,12 @@ int main()
 
 										studentPtr->dropFromCourse(*coursePtr);
 
-										cout << "Course dropped successfully." << endl;
+										cout << "Course dropped successfully."
+											<< endl;
 									}
 									else
 									{
-										cout <<"\nStudent is already not "
+										cout << "\nStudent is already not "
 											<< "enrolled in the course\n";
 									}
 									break;
@@ -374,19 +407,24 @@ int main()
 							cin >> code;
 							cout << endl;
 
+							for (char& ch : code)
+							{
+								ch = toupper(ch);
+							}
+
 							// assuming the course is not found
 							bool courseFound = false;
 							for (int j = 0; j < sizeOfCL; j++)
 							{
-								Course* coursePtr = offeredCourses.getDataAtPos(j);
+								Course* coursePtr =
+									offeredCourses.getDataAtPos(j);
 
 								if (coursePtr->getCode() == code)
 								{
 									courseFound = true;
 
 									// check if student is enrolled
-									if (!coursePtr->isStudentEnrolled
-										(studentPtr->getID()))
+									if (!coursePtr->isStudentEnrolled(studentPtr->getID()))
 									{
 
 										// check if the course is full
@@ -401,7 +439,7 @@ int main()
 										}
 										else
 										{
-											cout << "cannor register,course is full.";
+											cout << "cannot register,course is full.";
 											cout << "\n"
 												<< endl;
 										}
@@ -425,8 +463,9 @@ int main()
 						{
 							cout << "Invalid input.";
 
-							// discard input
-							cin.ignore(numeric_limits<streamsize>::max(), '\n');
+							/*discard input*/
+							 cin.ignore(numeric_limits<streamsize>::max(),
+							 		   '\n');
 						}
 
 						cout << "Do you want to continue? Y/N: ";
@@ -434,7 +473,7 @@ int main()
 					}
 				}
 			}
-			
+
 			if (!found)
 			{
 				cout << "Student not found (invalid ID)." << endl;
@@ -443,10 +482,10 @@ int main()
 			cout << "\n";
 			break;
 
-		//10. Quit the application
+			// 10. Quit the application
 		case 10:
 			cout << endl
-				<< "You exited the system. Bye Bye ;)\n\n";
+				<< "You exited the system.\n\n";
 			exit(0);
 
 		default:
@@ -454,7 +493,6 @@ int main()
 		}
 	}
 }
-
 
 //--- Definiton of inputOfferedCourses
 void inputOfferedCourses(LListWithDummyNode<Course>& offeredCourses)
@@ -501,7 +539,6 @@ void inputOfferedCourses(LListWithDummyNode<Course>& offeredCourses)
 		offeredCourses.addAtEnd(newCourse);
 	}
 }
-
 
 //--- Definiton of inputUnregisteredStudents
 void inputUnregisteredStudents(DoublyLinkedList<Student>& students)

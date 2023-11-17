@@ -9,7 +9,10 @@
 using namespace std;
 
 //--- Definition of class constructor with arguments
-Student::Student(const string &studentID, const string &firstName, const string &lastName, double gpa)
+Student::Student(const string& studentID,
+    const string& firstName,
+    const string& lastName,
+    double gpa)
 {
     setID(studentID);
     setFirstName(firstName);
@@ -18,13 +21,16 @@ Student::Student(const string &studentID, const string &firstName, const string 
 }
 //--- Definition of class no arg constructor
 Student::Student()
-    : studentID("undefined"), firstName("undefined"), lastName("undefined"), gpa(0)
+    : studentID("undefined"),
+    firstName("undefined"),
+    lastName("undefined"),
+    gpa(0)
 {
     updateAcademicStatus();
 }
 
 //--- Getters
-// 
+//
 //--- Definition of getID
 string Student::getID() const
 {
@@ -50,7 +56,8 @@ double Student::getGpa() const
 }
 
 //--- Definition of getMajor
-string Student::getMajor()const {
+string Student::getMajor() const
+{
     return major;
 }
 
@@ -61,34 +68,33 @@ AcademicStatus Student::getAcademicStatus() const
 }
 
 //--- Definition of getSize
-int Student::getSize()const
+int Student::getSize() const
 {
     return registerdCourses.getSize();
 }
 
-
 //---Setters
 
 //--- Definition of setID
-void Student::setID(const string &id)
+void Student::setID(const string& id)
 {
     this->studentID = id;
 }
 
 //--- Definition of setFirstName
-void Student::setFirstName(const string &first)
+void Student::setFirstName(const string& first)
 {
     this->firstName = first;
 }
 
 //--- Definition of setLastName
-void Student::setLastName(const string &last)
+void Student::setLastName(const string& last)
 {
     this->lastName = last;
 }
 
 //--- Definition of setGpa
-void Student::setGpa(const double &gpa)
+void Student::setGpa(const double& gpa)
 {
     if (gpa < 0.0)
     {
@@ -106,7 +112,8 @@ void Student::setGpa(const double &gpa)
 }
 
 //--- Definition of setMajor
-void Student::setMajor(const string& major) {
+void Student::setMajor(const string& major)
+{
     this->major = major;
 }
 
@@ -124,13 +131,13 @@ void Student::updateAcademicStatus()
 }
 
 //--- Definition of registerCourse
-void Student::registerCourse(const Course &course)
+void Student::registerCourse(const Course& course)
 {
     registerdCourses.addAtBeg(course);
 }
 
 //--- Definition of dropFromCourse
-void Student::dropFromCourse(const Course &course)
+void Student::dropFromCourse(const Course& course)
 {
     registerdCourses.deleteElement(course);
 }
@@ -139,17 +146,19 @@ void Student::dropFromCourse(const Course &course)
 void Student::displayStudent(ostream& os) const
 {
     string fullName = lastName + ", " + firstName;
-    os << left << setw(12) << studentID 
-    << setw(25) <<  fullName 
-    << setw(6) << fixed << setprecision(1) << gpa
-    << setw(15) <<(getAcademicStatus() == 0? "Regular" : "Probation") << endl;
-
+    os << left << setw(12) << studentID
+        << setw(25) << fullName
+        << setw(6) << fixed << setprecision(1) << gpa
+        << setw(15) << (getAcademicStatus() == 0 ? "Regular" : "Probation")
+        << endl;
 }
 
 //--- Definition of displayInfo
 //--- the only difference that I am mentioning the major (diff format)
-void Student::displayInfo(ostream& os)const {
-    os << "\nStudent: \n" << "\tID: " << studentID << "\n"
+void Student::displayInfo(ostream& os) const
+{
+    os << "\nStudent: \n"
+        << "\tID: " << studentID << "\n"
         << "\tName: " << firstName << " " << lastName << "\n"
         << "\tMajor: " << major << "\n"
         << "\tGPA: " << gpa << " \n\n";
@@ -165,36 +174,37 @@ void Student::displayRegisterdCourses(ostream& os)
     int size = registerdCourses.getSize();
 
     // list empty
-    if (size == 0) {
+    if (size == 0)
+    {
         os << "No Registered Courses\n\n";
         return;
     }
-        
-    for (int i = 0; i < size; i++) {
+
+    for (int i = 0; i < size; i++)
+    {
         os << "-   " << registerdCourses.getDataAtPos(i)->getTitle() << "\n";
     }
 }
 
 //--- Definition of overloaded operator ==
 //--- we compare students by their IDs
-bool Student::operator==(const Student &student)
+bool Student::operator==(const Student& student)
 {
     return this->studentID == student.studentID;
 }
 
 //--- Definition of overloaded operator >>
-istream &operator>>(istream &is, Student &student)
+istream& operator>>(istream& is, Student& student)
 {
     getline(is, student.studentID);
     getline(is, student.firstName);
     getline(is, student.lastName);
     is >> student.gpa;
     return is;
-
 }
 
 //--- Definition of overloaded operator <<
-ostream &operator<<(ostream &os, const Student &student)
+ostream& operator<<(ostream& os, const Student& student)
 {
     student.displayStudent(os);
     return os;
