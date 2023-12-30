@@ -547,8 +547,7 @@ ElementType* DoublyLinkedList<ElementType>::getDataAtPos(int pos)
 	return nullptr; // Other wise a null pointer is returned.
 }
 
-
-// displays the content of the list. 
+// displays the content of the list.
 template <typename ElementType>
 void DoublyLinkedList<ElementType>::display(ostream& os) const
 {
@@ -566,7 +565,6 @@ void DoublyLinkedList<ElementType>::display(ostream& os) const
 		}
 	}
 }
-
 
 // overloaded display operator.
 template <typename ElementType>
@@ -589,4 +587,27 @@ istream& operator>>(istream& is, DoublyLinkedList<ElementType>& list)
 	return is;
 }
 
-#endif 
+template <typename ElementType>
+bool operator==(const DoublyLinkedList<ElementType>& l1, const DoublyLinkedList<ElementType>& l2)
+{
+	if (l1.getSize != l2.getSize())
+	{
+		return false;
+	}
+
+	typename DoublyLinkedList<ElementType>::DNodePtr pointer1 = l1.myFirst;
+	typename DoublyLinkedList<ElementType>::DNodePtr pointer2 = l2.myFirst;
+
+	while (pointer1 != nullptr)
+	{
+		if (pointer1->elementData != pointer2->elementData)
+		{
+			return false;
+		}
+		pointer1 = pointer1->next;
+		pointer2 = pointer2->next;
+	}
+	return true;
+}
+
+#endif

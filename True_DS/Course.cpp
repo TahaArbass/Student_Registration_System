@@ -3,12 +3,10 @@
    This file implements Course member functions.
 -------------------------------------------------------------------------*/
 
-
 #include "Course.h"
 #include <cctype>
 #include <algorithm>
 #include <iomanip>
-
 using namespace std;
 
 //--- Definition of class no arg constructor
@@ -46,7 +44,7 @@ int Course::getCredits() const
 //--Definition of getNumOfStudent
 int Course::getNumOfStudents() const
 {
-    return registeredStudents.getSize();
+    return registerStudentIDs.getSize();
 }
 
 //--Definition of getCapacity
@@ -62,7 +60,7 @@ void Course::setCode(const string& code)
 {
     this->code = code;
 
-    //transforming small letters to upper case
+    // transforming small letters to upper case
     transform(this->code.begin(),
         this->code.end(), this->code.begin(),
         ::toupper);
@@ -96,7 +94,6 @@ void Course::setCourse(const string& code, const string& title,
     setCapacity(capacity);
 }
 
-
 //--Definition of setCapacity
 void Course::setCapacity(const int& capacity)
 {
@@ -112,25 +109,20 @@ void Course::setCapacity(const int& capacity)
 //--Definition of isFull
 inline bool Course::isFull() const
 {
-    return registeredStudents.getSize() >= capacity;
+    return registerStudentIDs.getSize() >= capacity;
 }
-
 
 //--Definition of isStudentEnrolled
 bool Course::isStudentEnrolled(const string& studentID)
 {
-    // getting the size from the list of registeredStudents
-    int size = registeredStudents.getSize();
+    int size = registerStudentIDs.getSize();
 
-    // for loop to get each studentID at their indices
     for (int i = 0; i < size; i++)
     {
-        // if the student found in the course then he/she is enrolled
-        if (registeredStudents.getDataAtPos(i)->getID() == studentID)
+        if (*registerStudentIDs.getDataAtPos(i) == studentID)
             return true;
     }
 
-    // else not found
     return false;
 }
 
@@ -140,58 +132,54 @@ void Course::registerStudent(const Student& student)
     // making sure that the course is not full
     if (!isFull())
     {
-        registeredStudents.insertAtFirst(student);
+        registerStudentIDs.insertAtFirst(student.getID());
     }
-
 }
 
-
-//--Definition of removeStudent 
+//--Definition of removeStudent
 void Course::removeStudent(const Student& student)
 {
-    registeredStudents.deleteElement(student);
+    registerStudentIDs.deleteElement(student.getID());
 }
 
-
-//--Definition of displayCourse 
+//--Definition of displayCourse
 void Course::displayCourse(ostream& os) const
 {
     os << left << setw(10) << code << setw(40)
         << title << setw(15) << numOfCredits
-        << setw(15) << registeredStudents.getSize()
+        << setw(15) << registerStudentIDs.getSize()
         << setw(15) << capacity << endl;
 }
 
+//--Definition of displayregisterStudentIDs
+// void Course::displayRegisteredStudents(ostream &os)
+// {
+//     // if the list of registered students is empty
+//     if (registerStudentIDs.isEmpty())
+//         os << "\nNo Registered Students\n";
+//     else
+//     {
+//         // getting the size of registered students
+//         int size = registerStudentIDs.getSize();
 
-//--Definition of displayRegisteredStudents
-void Course::displayRegisteredStudents(ostream& os)
-{
-    // if the list of registered students is empty 
-    if (registeredStudents.isEmpty())
-        os << "\nNo Registered Students\n";
-    else
-    {
-        // getting the size of registered students
-        int size = registeredStudents.getSize();
-
-        //for loop to display students with their attribute
-        for (int i = 0; i < size; i++)
-        {
-            Student* studentPtr = registeredStudents.getDataAtPos(i);
-            os << studentPtr->getID() << " ";
-            os << studentPtr->getLastName() << ", ";
-            os << studentPtr->getFirstName() << "\n";
-        }
-    }
-    os << "\n\n";
-}
+//         // for loop to display students with their attribute
+//         for (int i = 0; i < size; i++)
+//         {
+//             Student *studentPtr = registerStudentIDs.getDataAtPos(i);
+//             os << studentPtr->getID() << " ";
+//             os << studentPtr->getLastName() << ", ";
+//             os << studentPtr->getFirstName() << "\n";
+//         }
+//     }
+//     os << "\n\n";
+// }
 
 // choice 4
-//--Definition of displayCourseWithRegisteredStudents
+//--Definition of displayCourseWithregisterStudentIDs
 void Course::displayCourseWithRegisteredStudents(ostream& os)
 {
     os << "Course: " << code << " - " << title << "\n\n";
-    displayRegisteredStudents(os);
+    // displayRegisteredStudents(os);
 }
 
 //--Definition of << operator
@@ -228,9 +216,10 @@ istream& operator>>(istream& is, Course& course)
     return is;
 }
 
-//Definition of overloaded operator==
-// comparing by the course's code
-bool Course::operator==(const Course& course) const
+// Definition of overloaded operator==
+//  comparing by the course's code
+bool Course::operator==(const string& courseId)
 {
-    return code == course.code;
+
+    return this->getCode() == courseId;
 }

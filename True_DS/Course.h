@@ -211,16 +211,16 @@ public:
   ----------------------------------------------------------------------------*/
 
   /***** Display Registered Students *****/
-    void displayRegisteredStudents(ostream& os);
-    /*---------------------------------------------------------------------------
-    Display the list of students registered for the course.
+  // void displayRegisteredStudents(ostream &os);
+  /*---------------------------------------------------------------------------
+  Display the list of students registered for the course.
 
-    Precondition:  The 'os' parameter is a valid output stream.
-    Postcondition: The list of registered students is displayed
-                    on the output stream.
-  ----------------------------------------------------------------------------*/
+  Precondition:  The 'os' parameter is a valid output stream.
+  Postcondition: The list of registered students is displayed
+                  on the output stream.
+----------------------------------------------------------------------------*/
 
-  /***** Check if Course is Full *****/
+/***** Check if Course is Full *****/
     bool isFull() const;
     /*-----------------------------------------------------------------------
     Check if the course has reached its maximum capacity.
@@ -265,7 +265,8 @@ public:
   ----------------------------------------------------------------------------*/
 
   /***** Equality Operator *****/
-    bool operator==(const Course& course) const;
+    bool operator==(const string& courseId);
+
     /*---------------------------------------------------------------------------
     Compare two courses for equality.
 
@@ -275,13 +276,12 @@ public:
   ----------------------------------------------------------------------------*/
 
 private:
-    string code;      // code of the course
-    string title;     // title of the course
-    int numOfCredits; // credits number of the course
-    int capacity;     // capacity of the course
-    DoublyLinkedList<Student> registeredStudents;/**Course's list of registered
-                                                              students*/
-
+    string code;                                 // code of the course
+    string title;                                // title of the course
+    int numOfCredits;                            // credits number of the course
+    int capacity;                                // capacity of the course
+    DoublyLinkedList<string> registerStudentIDs; /**Course's list of registered
+                                                               students*/
 };
 
-#endif    //END OF THE HEADER FILE
+#endif // END OF THE HEADER FILE

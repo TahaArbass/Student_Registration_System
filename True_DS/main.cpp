@@ -2,7 +2,8 @@
  * This project is to implement Registration System using data structures
  * DoublyLinkedList,linkedListWithDummyNode and implying composition.
  * Course name : CSIS216 Fall 2023-2024
- * Authors : Fares Najjar - Taha Arbass - Edgard Yammine - Salim el Hajj
+ * Authors : Fares Najjar - Taha Arbas
+ * Group 1
  * Date   : 11-Nov-2023
  * Instructor: Dr.Hamid El Debs
 
@@ -10,9 +11,6 @@
 * inputOfferedCourses: fill courses list using txt file.
 inputUnRegisteredStudents:fill students list using txt file.
 ***********************************************************************/
-
-
-
 
 #include "Course.h"
 #include "Student.h"
@@ -60,6 +58,7 @@ int main()
 	bool found; // boolean to check if a student or course were found
 	while (counter < 1)
 	{
+
 		// display the list
 		cout << "===========================================================\n"
 			<< "1. Display the list of non - registered students.\n"
@@ -80,15 +79,19 @@ int main()
 		cout << "Enter your choice: ";
 		cin >> choice;
 
-		// // ensuring that the user does not input a different data type value
-		 if (cin.fail())
-		 {
-		 	cin.clear(); // clear the fail state
+		/**Note that this code below, from lines 87–94, is working on Taha's
+		 *compiler, but on mine; therefore, please, if it is not working on
+		 * your compiler just commands it. Same with the line 490.
+		 */
+		 // ensuring that the user does not input a different data type value
+		 // if (cin.fail())
+		 // {
+		 // 	cin.clear(); // clear the fail state
 
-		 	// discard input
-		 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
-		 	choice = -1; // it will go to the default state like this
-		 }
+		 // 	// discard input
+		 // 	cin.ignore(numeric_limits<streamsize>::max(), '\n');
+		 // 	choice = -1; // it will go to the default state like this
+		 // }
 
 		switch (choice)
 		{
@@ -210,11 +213,12 @@ int main()
 				if (coursePtr->getCode() == code)
 				{
 					found = true;
-					cout << "\nCourse: " << coursePtr->getCode() << "-" << coursePtr->getTitle();
+					cout << "\nCourse: " << coursePtr->getCode()
+						<< "-" << coursePtr->getTitle();
 					cout << "\n"
 						<< endl;
 
-					coursePtr->displayRegisteredStudents(cout);
+					// coursePtr->displayRegisteredStudents(cout);
 
 					break;
 				}
@@ -266,7 +270,7 @@ int main()
 					cout << "Enter course code: ";
 					cin >> code;
 
-					// giving the flexiblity for the user to enter small letters
+					// giving the flexibility for the user to enter small letters
 
 					for (char& ch : code)
 					{
@@ -359,6 +363,12 @@ int main()
 							cout << "choose course code : ";
 							cin >> code;
 
+							// giving the user flexibility to enter small letters
+							for (char& ch : code)
+							{
+								ch = toupper(ch);
+							}
+
 							cout << "\n\n";
 
 							// assuming course not found
@@ -407,6 +417,7 @@ int main()
 							cin >> code;
 							cout << endl;
 
+							// giving the user flexibility to enter small letters
 							for (char& ch : code)
 							{
 								ch = toupper(ch);
@@ -463,9 +474,9 @@ int main()
 						{
 							cout << "Invalid input.";
 
-							/*discard input*/
-							 cin.ignore(numeric_limits<streamsize>::max(),
-							 		   '\n');
+							// discard input
+							// cin.ignore(numeric_limits<streamsize>::max(),
+							// 		   '\n');
 						}
 
 						cout << "Do you want to continue? Y/N: ";

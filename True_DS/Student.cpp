@@ -70,7 +70,7 @@ AcademicStatus Student::getAcademicStatus() const
 //--- Definition of getSize
 int Student::getSize() const
 {
-    return registerdCourses.getSize();
+    return registerdCoursesIDs.getSize();
 }
 
 //---Setters
@@ -133,13 +133,13 @@ void Student::updateAcademicStatus()
 //--- Definition of registerCourse
 void Student::registerCourse(const Course& course)
 {
-    registerdCourses.addAtBeg(course);
+    registerdCoursesIDs.addAtBeg(course.getCode());
 }
 
 //--- Definition of dropFromCourse
 void Student::dropFromCourse(const Course& course)
 {
-    registerdCourses.deleteElement(course);
+    registerdCoursesIDs.deleteElement(course.getCode());
 }
 
 //--- Definition of displayStudent
@@ -171,7 +171,7 @@ void Student::displayRegisterdCourses(ostream& os)
     os << "\nStudent: " << studentID << " - " << firstName << " " << lastName
         << "\n\nCourses:\n\n";
 
-    int size = registerdCourses.getSize();
+    int size = registerdCoursesIDs.getSize();
 
     // list empty
     if (size == 0)
@@ -182,15 +182,15 @@ void Student::displayRegisterdCourses(ostream& os)
 
     for (int i = 0; i < size; i++)
     {
-        os << "-   " << registerdCourses.getDataAtPos(i)->getTitle() << "\n";
+        os << "-   " << registerdCoursesIDs.getDataAtPos(i) << "\n";
     }
 }
 
 //--- Definition of overloaded operator ==
 //--- we compare students by their IDs
-bool Student::operator==(const Student& student)
+bool Student::operator==(const string& studentID)
 {
-    return this->studentID == student.studentID;
+    return this->studentID == studentID;
 }
 
 //--- Definition of overloaded operator >>
